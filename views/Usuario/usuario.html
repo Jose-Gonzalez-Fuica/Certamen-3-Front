@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <title>Gestión Gastos</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+<body>
+
+  <input type="text" id="idUsuario" hidden>
+
+  <div class="card mt-5">
+    <div class="card-title">
+        <h3 class="ms-3 mt-3">Lista de Usuarios</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-11">
+            <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modalCreateUsuario">Crear Usuario</button>
+        </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover" id="tablaUsuarios">
+            <thead class="table-dark">
+              <tr>
+                <th class="text-center">Nombre Usuario</th>
+                <th class="text-center">Contraseña</th>
+                <th class="text-center">Nombre Completo</th>
+                <th class="text-center">Correo</th>
+                <th class="text-center">Teléfono</th>
+                <th class="text-center">Monto Billetera</th>
+                <th class="text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="bodyUsuarios">
+    
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+    </div>
+</div>
+</body>
+</html>
+
+
+<div class="modal modal-xl fade" id="modalCreateUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Crear Nuevo Usuario</h5>
+        <button type="button" id="closeModalUsuarioCreate" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+
+          <div class="card-body">
+              <form>
+                  <div class="row">
+                      <hr>
+                      <em>Datos Login</em>
+                      <div class="col-md-6">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Nombre de Usuario</label>
+                              <input id="nombreUsuario" type="text" class="form-control" autocomplete="off" maxlength="25">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Contraseña</label>
+                              <input id="contrasena" type="password" class="form-control" autocomplete="off" maxlength="25">
+                          </div>
+                      </div>
+                  </div>
+      
+                  <div class="row">
+                      <hr>
+                      <em>Datos Personales</em>
+                      <div class="col-md-6">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Nombres</label>
+                              <input id="nombres" type="text" class="form-control" autocomplete="off" maxlength="80">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Apellidos</label>
+                              <input id="apellidos" type="text" class="form-control" autocomplete="off" maxlength="80">
+                          </div>
+                      </div>
+                  </div>
+      
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Correo</label>
+                              <input id="correo" type="email" class="form-control" autocomplete="off" maxlength="100">
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Teléfono</label>
+                              <input id="telefono" type="text" class="form-control" onkeypress="return soloNumeros(event)"
+                                  maxlength="9" />
+                          </div>
+                      </div>
+      
+                      <div class="col-md-3">
+                          <div class="input-group input-group-outline my-3">
+                              <label class="form-label">Monto Billetera</label>
+                              <input id="billetera" type="text" onkeypress="return soloNumeros(event)" maxlength="9"
+                                  class="form-control">
+                          </div>
+                      </div>
+                  </div>
+      
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" onclick="validarUsuario('Guardar')">Guardar</button>
+          </div>
+      </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal modal-xl fade" #modalEdit id="modalModifyUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Modificar Usuario</h5>
+        <button id="closeModalUsuarioModify" type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+<div class="card">
+  <div class="card-body">
+      <form>
+          <div class="row">
+              <em class="mb-3">Datos Proximo Login</em>
+              
+              <div class="col-md-6">
+                  <label class="form-label">Nombre de Usuario</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="nombreUsuarioE" type="text" class="form-control" value="@Model.NombreUsuario" placeholder="Nombre Usuario" autocomplete="off" maxlength="25">
+                  </div>
+
+              </div>
+              <div class="col-md-6">
+                  <label class="form-label">Contraseña</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="contrasenaE" type="password" class="form-control" placeholder="Contraseña" value="@Model.Contrasena" autocomplete="off" maxlength="25">
+                  </div>
+              </div>
+          </div>
+
+          <div class="row mt-2">
+              <hr>
+              <em class="mb-3">Datos Personales</em>
+              <div class="col-md-6">
+                  <label class="form-label">Nombres</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="nombresE" type="text" class="form-control" placeholder="Nombres" value="@Model.Nombres" autocomplete="off" maxlength="80">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                      <label class="form-label">Apellidos</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="apellidosE" type="text" class="form-control" placeholder="Apellidos" value="@Model.Apellidos" autocomplete="off" maxlength="80">
+                  </div>
+              </div>
+          </div>
+
+          <div class="row mt-3">
+              <div class="col-md-6">
+                      <label class="form-label">Correo</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="correoE" type="email" class="form-control" placeholder="Correo Electrónico" value="@Model.Correo" autocomplete="off" maxlength="100">
+                  </div>
+              </div>
+              <div class="col-md-3">
+                      <label class="form-label">Teléfono</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="telefonoE" type="text" class="form-control" onkeypress="return soloNumeros(event)" maxlength="9" placeholder="Teléfono" value="@Model.Telefono" />
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                      <label class="form-label">Monto Billetera</label>
+
+                  <div class="input-group input-group-outline">
+                      <input id="billeteraE" type="text" onkeypress="return soloNumeros(event)" maxlength="9" placeholder="Monto Billetera" class="form-control" value="@Model.MontoBilletera">
+                  </div>
+              </div>
+          </div>
+
+      </form>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-warning" onclick="validarUsuario('Modificar')">Modificar</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+    </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--     Fonts and icons     -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+<!-- Nucleo Icons -->
+<link href="../../assets/css/nucleo-icons.css" rel="stylesheet" />
+<link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
+<!-- Font Awesome Icons -->
+<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+<link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
+<!-- CSS Files -->
+<link id="pagestyle" href="../../assets/css/material-dashboard.css" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../../assets/lib/jquery/dist/jquery.min.js"></script>
+<script src="../../assets/js/core/popper.min.js"></script>
+<script src="../../assets/js/core/bootstrap.min.js"></script>
+<script src="../../assets/js/material-dashboard.min.js"></script>
+
+<script src="../../js/Usuario/usuarios.js"></script>
+
+<script>
+  function soloNumeros(event) {
+      var inputChar = String.fromCharCode(event.keyCode);
+      var pattern = /^[0-9]+$/;
+      if (!pattern.test(inputChar)) {
+          event.preventDefault();
+          return false;
+      }
+      return true;
+  }
+</script>
